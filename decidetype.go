@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-//DecideType 类型断言..
+//DecideType ..
 func DecideType(src interface{}) (string, error) {
 	tmp := ""
 	switch t := src.(type) {

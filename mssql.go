@@ -18,8 +18,8 @@ type Mssql struct {
 	Db       *sql.DB
 }
 
-// NewMsssql 初始化连接
-func NewMsssql(server, user, password, database string) Mssql {
+// NewMssql 初始化连接
+func NewMssql(server, user, password, database string) Mssql {
 	dsn := fmt.Sprintf("driver={sql server};server=%s;port=1433;uid=%s;pwd=%s;database=%s", server, user, password, database)
 	db, err := sql.Open("odbc", dsn) //"driver={sql server};server=s;port=1433;uid=u;pwd=p;database=d"
 	checkErr(err)
@@ -55,9 +55,7 @@ func (m Mssql) Queryby(db *sql.DB, sqlstr string) *[]map[string]interface{} {
 		}
 		maps = append(maps, rowMap)
 	}
-	//打印切片
 	//fmt.Println(maps)
-	//fmt.Printf("%T\n", maps) //[]map[string]interface {}
 	return &maps //返回指针
 }
 
@@ -81,8 +79,6 @@ func (m Mssql) Modifyby(db *sql.DB, sqlstr string, args ...interface{}) int64 {
 	stmt, err := db.Prepare(sqlstr) // Exec、Prepare均可实现增删改
 	checkErr(err)
 	defer stmt.Close()
-	//Exec代入参数执行 data[0],data[1]
-	//`update config..Version set Issueoperid="zwx" where VID="test"`
 	res, err := stmt.Exec(args...)
 	checkErr(err)
 	//判断执行结果
@@ -97,21 +93,3 @@ func checkErr(err error) {
 		fmt.Println(err) //panic(err)
 	}
 }
-
-/*
-//main
-func main() {
-	//创建连接
-	ms := newMsssql("localhost", "sa", "111111Aa", "config")
-	//defer db.Close()
-	defer ms.db.Close()
-	//查询
-	sqlstr := "select top 3 fid,fieldcode,tradeid from config..fieldinfo where tradeid=016601"
-	maps := ms.queryby(ms.db, sqlstr)
-	fmt.Println(maps)
-	//插入、更新、删除
-	sqlstr1 := "update config..Version set Issueoperid=? where VID=?"
-	num := ms.modifyby(ms.db, sqlstr1, "zwx", "test")
-	fmt.Printf("succeed,%v line affected.\n", num)
-}
-*/
