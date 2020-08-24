@@ -64,6 +64,14 @@ func convertRow(row interface{}) interface{} {
 	switch row.(type) {
 	case int:
 		return gocast.ToInt(row)
+	case int32:
+		return gocast.ToFloat32(row)
+	case int64:
+		return gocast.ToFloat64(row)
+	case float32:
+		return gocast.ToFloat32(row)
+	case float64:
+		return gocast.ToFloat64(row)
 	case string:
 		return gocast.ToString(row)
 	case []byte:
