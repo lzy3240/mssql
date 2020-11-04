@@ -34,10 +34,15 @@ func NewMssql(server, user, password, database string) Mssql {
 }
 
 //Queryby 查询数据操作
-func (m Mssql) Queryby(db *sql.DB, sqlstr string) *[]map[string]interface{} {
-	rows, err := db.Query(sqlstr)
+func (m Mssql) Queryby(db *sql.DB, sqlstr string, args ...interface{}) *[]map[string]interface{} {
+	// rows, err := db.Query(sqlstr)
+	// checkErr(err)
+	// defer rows.Close()
+	stmt, err := db.Prepare(sqlstr)
 	checkErr(err)
-	defer rows.Close()
+	defer stmt.Close()
+	rows, err := stmt.Query(args...)
+	checkErr(err)
 
 	//遍历每一行
 	colNames, _ := rows.Columns()
