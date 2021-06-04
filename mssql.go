@@ -27,6 +27,7 @@ func NewMssql(server,port, user, password, database string) Mssql {
 	//defer db.Close()
 	return Mssql{
 		server:   server,
+		port:	  port,
 		user:     user,
 		password: password,
 		database: database,
