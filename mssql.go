@@ -12,6 +12,7 @@ import (
 // Mssql 结构体
 type Mssql struct {
 	server   string
+	port 	 string
 	user     string
 	password string
 	database string
@@ -19,8 +20,8 @@ type Mssql struct {
 }
 
 // NewMssql 初始化连接
-func NewMssql(server, user, password, database string) Mssql {
-	dsn := fmt.Sprintf("driver={sql server};server=%s;port=1433;uid=%s;pwd=%s;database=%s", server, user, password, database)
+func NewMssql(server,port, user, password, database string) Mssql {
+	dsn := fmt.Sprintf("driver={sql server};server=%s;port=%s;uid=%s;pwd=%s;database=%s", server, port, user, password, database)
 	db, err := sql.Open("odbc", dsn) //"driver={sql server};server=s;port=1433;uid=u;pwd=p;database=d"
 	checkErr(err)
 	//defer db.Close()
